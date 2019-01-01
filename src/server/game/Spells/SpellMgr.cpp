@@ -4820,6 +4820,27 @@ void SpellMgr::LoadSpellInfoCorrections()
         spellInfo->Effects[EFFECT_1].SpellClassMask |= flag96(0x00004408, 0x10, 0);
     });
 
+    //Seed of Corruption AURA
+    ApplySpellFix({
+        27243,
+        47835,
+        47836
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->ProcFlags = 0;
+        spellInfo->AttributesCu |= SPELL_ATTR0_CU_NEGATIVE;
+        spellInfo->AttributesEx5 |= SPELL_ATTR5_SINGLE_TARGET_SPELL;
+        spellInfo->Effects[EFFECT_1].Effect = 0;
+    });
+
+    //Glyph of Quick Decay for Seed of Corruption
+    ApplySpellFix({
+        70947
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].SpellClassMask |= flag96(0, 0x10, 0);
+    });
+
     for (uint32 i = 0; i < GetSpellInfoStoreSize(); ++i)
     {
         SpellInfo* spellInfo = mSpellInfoMap[i];

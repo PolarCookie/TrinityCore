@@ -588,8 +588,8 @@ class spell_warl_everlasting_affliction : public SpellScriptLoader
                 Unit* caster = GetCaster();
                 if (Unit* target = GetHitUnit())
                 {
-                    // Refresh corruption on target
-                    if (AuraEffect* aur = target->GetAuraEffect(SPELL_AURA_PERIODIC_DAMAGE, SPELLFAMILY_WARLOCK, 0x2, 0, 0, caster->GetGUID()))
+                    // Refresh corruption or seed of corruption on target
+                    if (AuraEffect* aur = target->GetAuraEffect(SPELL_AURA_PERIODIC_DAMAGE, SPELLFAMILY_WARLOCK, 0x2, 0x10, 0, caster->GetGUID()))
                     {
                         aur->ChangeAmount(aur->CalculateAmount(aur->GetCaster()), false);
                         aur->CalculatePeriodic(caster, false, false);
@@ -1185,45 +1185,21 @@ class spell_warl_seed_of_corruption_dummy : public SpellScriptLoader
                 return ValidateSpellInfo({ SPELL_WARLOCK_SEED_OF_CORRUPTION_DAMAGE_R1 });
             }
 
-            void CalculateBuffer(AuraEffect const* aurEff, int32& amount, bool& /*canBeRecalculated*/)
-            {
-                Unit* caster = GetCaster();
-                if (!caster)
-                    return;
-
-                // effect 1 scales with 14% of caster's SP (DBC data)
-                amount = caster->SpellDamageBonusDone(GetUnitOwner(), GetSpellInfo(), amount, SPELL_DIRECT_DAMAGE, aurEff->GetEffIndex(), GetAura()->GetDonePct());
-            }
-
-            void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+            void PeriodicTick(AuraEffect const* /*aurEff*/)
             {
                 PreventDefaultAction();
-                DamageInfo* damageInfo = eventInfo.GetDamageInfo();
-                if (!damageInfo || !damageInfo->GetDamage())
-                    return;
-
-                int32 amount = aurEff->GetAmount() - damageInfo->GetDamage();
-                if (amount > 0)
-                {
-                    const_cast<AuraEffect*>(aurEff)->SetAmount(amount);
-                    if (!GetTarget()->HealthBelowPctDamaged(1, damageInfo->GetDamage()))
-                        return;
-                }
-
-                Remove();
 
                 Unit* caster = GetCaster();
                 if (!caster)
                     return;
 
                 uint32 spellId = sSpellMgr->GetSpellWithRank(SPELL_WARLOCK_SEED_OF_CORRUPTION_DAMAGE_R1, GetSpellInfo()->GetRank());
-                caster->CastSpell(eventInfo.GetActionTarget(), spellId, aurEff);
+                caster->CastSpell(GetTarget(), spellId, true);
             }
 
             void Register() override
             {
-                DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_warl_seed_of_corruption_dummy_AuraScript::CalculateBuffer, EFFECT_1, SPELL_AURA_DUMMY);
-                OnEffectProc += AuraEffectProcFn(spell_warl_seed_of_corruption_dummy_AuraScript::HandleProc, EFFECT_1, SPELL_AURA_DUMMY);
+                OnEffectPeriodic += AuraEffectPeriodicFn(spell_warl_seed_of_corruption_dummy_AuraScript::PeriodicTick, EFFECT_0, SPELL_AURA_PERIODIC_DAMAGE);
             }
         };
 
