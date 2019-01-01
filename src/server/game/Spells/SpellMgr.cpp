@@ -4841,6 +4841,19 @@ void SpellMgr::LoadSpellInfoCorrections()
         spellInfo->Effects[EFFECT_0].SpellClassMask |= flag96(0, 0x10, 0);
     });
 
+    //Shadow Bite on swing
+    ApplySpellFix({
+        54049,
+        54050,
+        54051,
+        54052,
+        54053
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Attributes |= SPELL_ATTR0_ON_NEXT_SWING;
+        spellInfo->RecoveryTime = 4;
+    });
+
     for (uint32 i = 0; i < GetSpellInfoStoreSize(); ++i)
     {
         SpellInfo* spellInfo = mSpellInfoMap[i];
