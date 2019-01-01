@@ -4810,6 +4810,16 @@ void SpellMgr::LoadSpellInfoCorrections()
         spellInfo->Effects[EFFECT_1].RadiusEntry = sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_3_YARDS); // 3yd
     });
 
+    // Patch 3.4.0+
+    // Wrath Extended
+    // Pandemic Crit Chance for Curse of Agony, Drain Life and Drain Soul
+    // Pandemic Crit Damage Buff for Curse of Agony, Drain Life, Drain Soul and Seed Of Corruption
+    ApplySpellFix({ 58435 }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].SpellClassMask |= flag96(0x00004408, 0, 0);
+        spellInfo->Effects[EFFECT_1].SpellClassMask |= flag96(0x00004408, 0x10, 0);
+    });
+
     for (uint32 i = 0; i < GetSpellInfoStoreSize(); ++i)
     {
         SpellInfo* spellInfo = mSpellInfoMap[i];
