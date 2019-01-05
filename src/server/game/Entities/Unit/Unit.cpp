@@ -6794,8 +6794,8 @@ float Unit::SpellDamagePctDone(Unit* victim, SpellInfo const* spellProto, Damage
                 if (uint8 count = victim->GetDoTsByCaster(GetOwnerGUID()))
                     AddPct(DoneTotalMod, 15 * count);
 
-            // Drain Soul - If the target is at or below 25% health, Drain Soul causes four times the normal damage
-            if (spellProto->SpellFamilyFlags[0] & 0x00004000 && !victim->HealthAbovePct(25))
+            // Drain Soul - If the target is at or below 35% health, Drain Soul causes four times the normal damage
+            if (spellProto->SpellFamilyFlags[0] & 0x00004000 && !victim->HealthAbovePct(35))
                 DoneTotalMod *= 4;
             break;
         case SPELLFAMILY_HUNTER:

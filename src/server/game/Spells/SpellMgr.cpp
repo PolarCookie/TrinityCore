@@ -4820,6 +4820,123 @@ void SpellMgr::LoadSpellInfoCorrections()
         spellInfo->Effects[EFFECT_1].SpellClassMask |= flag96(0x00004408, 0x10, 0);
     });
 
+    //Corruption
+    ApplySpellFix({
+        172,
+        6222,
+        6223,
+        7648,
+        11671,
+        11672,
+        25311,
+        27216,
+        47812,
+        47813
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].BasePoints = 0;
+        spellInfo->Effects[EFFECT_0].BonusMultiplier = 0.2f;
+    });
+
+    //Unstable Affliction
+    ApplySpellFix({
+        30108,
+        30404,
+        30405,
+        47841,
+        47843
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].BasePoints = 0;
+        spellInfo->Effects[EFFECT_0].BonusMultiplier = 0.2f;
+    });
+
+    //Curse of Agony
+    ApplySpellFix({
+        980,
+        1014,
+        6217,
+        11711,
+        11712,
+        11713,
+        27218,
+        47863,
+        47864
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].BasePoints = 0;
+        spellInfo->Effects[EFFECT_0].BonusMultiplier = 0.2f;
+    });
+
+    //Drain Life
+    ApplySpellFix({
+        689,
+        699,
+        709,
+        7651,
+        11699,
+        11700,
+        27219,
+        27220,
+        47857
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].BasePoints = 0;
+        spellInfo->Effects[EFFECT_0].BonusMultiplier = 0.14f;
+    });
+
+    //Drain Soul
+    ApplySpellFix({
+        1120,
+        8288,
+        8289,
+        11675,
+        27217,
+        47855
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_1].BasePoints = 0;
+        spellInfo->Effects[EFFECT_1].BonusMultiplier = 0.20f;
+        spellInfo->Effects[EFFECT_1].Amplitude = 1000;
+    });
+
+    //Haunt
+    ApplySpellFix({
+        48181,
+        59161,
+        59163,
+        59164
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].BasePoints = 0;
+        spellInfo->Effects[EFFECT_0].BonusMultiplier = 0.4793f;
+    });
+
+    //Haunt
+    ApplySpellFix({
+        48181,
+        59161,
+        59163,
+        59164
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].BasePoints = 0;
+        spellInfo->Effects[EFFECT_0].BonusMultiplier = 0.5f;
+    });
+
+    //Shadow Bolt
+    ApplySpellFix({
+        48181,
+        59161,
+        59163,
+        59164
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].BasePoints = 0;
+        spellInfo->Effects[EFFECT_0].RealPointsPerLevel = 0;
+        spellInfo->Effects[EFFECT_0].BonusMultiplier = 1.0f;
+    });
+
     //Seed of Corruption AURA
     ApplySpellFix({
         27243,
@@ -4853,6 +4970,57 @@ void SpellMgr::LoadSpellInfoCorrections()
         spellInfo->Attributes |= SPELL_ATTR0_ON_NEXT_SWING;
         spellInfo->RecoveryTime = 4;
     });
+
+    //Improved Curse of Agony
+    ApplySpellFix({
+        18827,
+        18829
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].ApplyAuraName = SPELL_AURA_ADD_FLAT_MODIFIER;
+        spellInfo->Effects[EFFECT_0].MiscValue = SPELLMOD_BONUS_MULTIPLIER;
+    });
+
+    //Improved Corruption
+    ApplySpellFix({
+        17810,
+        17811,
+        17812,
+        17813,
+        17814,
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].ApplyAuraName = SPELL_AURA_ADD_FLAT_MODIFIER;
+        spellInfo->Effects[EFFECT_0].MiscValue = SPELLMOD_BONUS_MULTIPLIER;
+
+        spellInfo->Effects[EFFECT_1].MiscValue = SPELLMOD_BONUS_MULTIPLIER;
+    });
+
+    //Siphon Life
+    ApplySpellFix({
+        63108
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_1].ApplyAuraName = SPELL_AURA_ADD_FLAT_MODIFIER;
+        spellInfo->Effects[EFFECT_1].MiscValue = SPELLMOD_BONUS_MULTIPLIER;
+    });
+
+    //Contagion
+    ApplySpellFix({
+        30060,
+        30061,
+        30062,
+        30063,
+        30064
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->Effects[EFFECT_0].ApplyAuraName = SPELL_AURA_ADD_FLAT_MODIFIER;
+        spellInfo->Effects[EFFECT_0].MiscValue = SPELLMOD_BONUS_MULTIPLIER;
+
+        spellInfo->Effects[EFFECT_1].Effect = 0;
+    });
+
+
 
     for (uint32 i = 0; i < GetSpellInfoStoreSize(); ++i)
     {
